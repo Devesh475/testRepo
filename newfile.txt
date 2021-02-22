@@ -1,0 +1,3 @@
+this is newfile after adding git remote
+then git pull
+then git push
