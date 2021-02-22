@@ -1,3 +1,5 @@
 checking git status
 git clone https://github.com/Devesh475/testRepo.git
-using git pull
+using git pull origin main
+using git push
+work done
