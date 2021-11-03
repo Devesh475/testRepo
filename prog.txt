@@ -1,0 +1,248 @@
+%%% exp.1: GENERATION OF  BASIC SIGNALS  USING MATLAB  
+
+%%% exp.1.(a)Program for the generation of unit impulse signal  
+clear all;     %% to clear all the previous data
+close all;     %% to close all the dsiplayed figures
+clc;           %% to clear all the warning displayed at command window of matlab
+N = 5;         %% number of samples at one side of the signal
+x = -5:5;      %% Interval of the signal
+y = [zeros(1,N),ones(1,1),zeros(1,N)];  %% Generate Impulse signal
+
+%% Plot for continuous unit impulse signal
+subplot(3,2,1);                         %% Plot the subfigure (2 = two rows, 2 = two columns, 1= postion of subfigure)
+plot(x,y);                              %% plot continuous signal
+ylabel('Amplitude');                    %% labeling for y-axis
+xlabel('Time (t)');                         %% labeling for x-axis
+title('Continuous unit impulse signal');%% Giving tilte name of the subfigure
+%% Plot for discrete unit impulse signal
+subplot(3,2,2);
+stem(x,y);                              %% plot discrete signal
+ylabel('Amplitude');
+xlabel('Time (n)');
+title('Discrete unit impulse signal');
+
+%%% exp.1.(b)Program for the generation of unit step signal   
+N=5;   
+t=0:N-1;  
+y=ones(1,N); 
+%% Plot for continuous unit step signal
+subplot(3,2,3); 
+plot(t,y); 
+ylabel('Amplitude');                    
+xlabel('Time');                        
+title('Continuous unit step signal');
+%% Plot for discrete unit step signal
+subplot(3,2,4); 
+stem(t,y);  
+ylabel('Amplitude');                   
+xlabel('Time');                        
+title('Discrete unit step signal');
+
+%%% exp.1.(c)Program for the generation of unit ramp signal   
+N =4;
+t=0:N;  
+%% Plot for continuous unit ramp signal
+subplot(3,2,5); 
+plot(t,t); 
+ylabel('Amplitude');                  
+xlabel('Time');                        
+title('Continuous unit ramp signal');
+%% Plot for discrete unit rampp signal
+subplot(3,2,6); 
+stem(t,t);  
+ylabel('Amplitude');                   
+xlabel('Time');                        
+title('Discrete unit ramp signal');
+
+
+
+
+
+
+%% MATLAB program for linear convolution 
+
+close all;
+clear all;
+clc;
+x = [1,2,3,4]; %% sequence of input x(n) %% this line can
+              %% be replaced by x=input('enter the input sequence') 
+              %% if you want to enter input sequence from command window
+              
+              
+h = [1,2,1,2,5]; %% sequence of input h(n) %% impluse response
+
+n1 = length(x);  %% length means number of sample of x(n)
+n2 = length(h);
+N = n1+n1-1;   %% length of linear convolved sequence or output signal/sequence
+
+x = [x,zeros(1,(N-n1))]; %% append zero at end of x(n) to make same length with h(n)
+h = [h,zeros(1,(N-n2))]; 
+y = zeros(1,N)   %% y is the open sequence/signal or convolved signal or system response
+
+for i = 1:N
+    for k = 1:i
+        y(i) = y(i)+x(k)*h(i-k+1)   %%% here we are using convolution formula
+    end
+end
+
+
+
+
+
+
+
+%%% Matlab code for Crosscorrelation
+%%% Crosscorrelation check how much similarlity between two different
+%%% signals with time delay in one of the signals  x(n) and h(n-3)
+
+clc;  % clear screen 
+clear all;  % clear workspace 
+close all;  % close all figure windows
+x = [1,2,3,4];
+h = [1,2,5,4];
+h= fliplr(h);    %% flipped left to right %% example h = 1,2,5,4 becomes 4,5,2,1
+                 %% we do fliplr here because fliplr of linear convolution is same as correlation
+                 %%% This code is exactly same as linear convolution except
+                 %%% we fliplr
+                 
+n1 = length(x);  %% length means number of sample of x(n)
+n2 = length(h);
+N = n1+n2-1;   %% length of linear convolved sequence or output signal/sequence
+
+x = [x,zeros(1,(N-n1))]; %% append zero at end of x(n) to make same length with h(n)
+h = [h,zeros(1,(N-n2))]; 
+y = zeros(1,N)   %% y is the open sequence/signal or convolved signal
+
+for i = 1:N
+    for k = 1:i
+        y(i) = y(i)+x(k)*h(i-k+1)   %%% here we are using convolution formula
+    end
+end
+
+
+
+
+
+
+
+
+%%% Matlab code for Autocorrelation
+%%% Autocorrelation check how much similarlity in one signal 
+%%% signal with its time delay     %%  x(n) and x(n-3)
+
+clc;  % clear screen 
+clear all;  % clear workspace 
+close all;  % close all figure window
+x = [1,2,3,4]; %% this code is exactly same as crosscorrelation except here we use only one input
+x= fliplr(x);    %% flipped left to right %% example h = 1,2,5,4 becomes 4,5,2,1
+
+                 %% we do fliplr here because fliplr of linear convolution is same as correlation
+                 %%% This code is exactly same as linear convolution except
+                 %%% we fliplr                
+n1 = length(x);  %% length means number of sample of x(n)
+N = 2*n1-1;   %% length of linear convolved sequence or output signal/sequence
+
+x = [x,zeros(1,(N-n1))]; %% append zero at end of x(n) to make same length with h(n)
+y = zeros(1,N)   %% y is the open sequence/signal or convolved signal
+
+for i = 1:N
+    for k = 1:i
+        y(i) = y(i)+x(k)*x(i-k+1)   %%% here we are using convolution formula
+    end
+end
+
+
+
+
+
+
+
+%% exp.5 Matlab code for Sampling Theorem
+clc;
+close all;
+clear all;
+fm = 10; %   max frequency   %%%   fm = input('Enter frequency of message signal: ');
+fs1 =  5; %%    fs = sampling frequency fs1 < 2fm  %%%%  fs1 = input('Enter frequency of sampling frequency(<2fm): ');
+fs2 = 20; %%%    fs2 = 2fm    %%%%   fs2 =input('Enter frequency of sampling frequency(=2fm): ');
+fs3 = 40;   %%%%  fs3 > 2fm    %%%  fs3 = input('Enter frequency of sampling frequency(>2fm): ');
+
+%% Plot for continuous signal or message signal or input signal
+t = 0:0.001:2;
+x = sin(2*pi*fm*t);
+subplot(4,2,1);
+plot(t,x);
+xlabel('Time');
+ylabel('Amplitude');
+title('Continuous Sine Wave');
+subplot(4,2,2);
+stem(t,x);
+xlabel('Time');
+ylabel('Amplitude');
+title('Discrete Sine Wave');
+
+
+%%% Undersampled Reconstructed Signal %%% fs1 < 2fm
+t1 = 0:1/fs1:2;
+x1 = sin(2*pi*fm*t1);
+subplot(4,2,3);
+plot(t1,x1);
+xlabel('Time');
+ylabel('Amplitude');
+title('Undersampled Reconstructed Continuous Signal');
+subplot(4,2,4);
+stem(t1,x1);
+xlabel('Time');
+ylabel('Amplitude');
+title('Undersampled Reconstructed Discrete Signal');
+
+
+%%% Nyquist rate Signal %%% fs2=2fm
+t2 = 0:1/fs2:2;
+x2 = sin(2*pi*fm*t2);
+subplot(4,2,5);
+plot(t2,x2);
+xlabel('Time');
+ylabel('Amplitude');
+title('Nyquist Rate Reconstructed Continuous Signal');
+subplot(4,2,6);
+stem(t2,x2);
+xlabel('Time');
+ylabel('Amplitude');
+title('Nyquist Rate Reconstructed Discrete Signal');
+
+%%% Oversampled Reconstructed Signal
+t3 = 0:1/fs3:2;
+x3 = sin(2*pi*fm*t3);
+subplot(4,2,7);
+plot(t3,x3);
+xlabel('Time');
+ylabel('Amplitude');
+title('Oversampled Reconstructed Continuous Signal');
+subplot(4,2,8);
+stem(t3,x3);
+xlabel('Time');
+ylabel('Amplitude');
+title('Oversampled Reconstructed Discrete Signal');
+
+
+
+
+
+
+%%% Matlab code for Z-tranform 
+
+clc;
+close all;
+clear all;
+x = [1 2 4 5] %input('Enter the input sequence: ');
+b = 0;
+n = length(x);
+y = sym('z');
+for i = 1:n
+    b = b+x(i)*y^(1-i); %% z-transform formula
+end
+display(x)
+display('z Transform of the input sequence: ');
+display(sum(b))
+
+
